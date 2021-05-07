@@ -1,0 +1,29 @@
+{% extends "post/base.html" %}
+
+{% block content %}
+<div class="content-section">
+    <legend class="border-bottom mb-4 text-center text-info"><b></b></legend>
+    <table class="table table-hover table-bordered table-striped">
+        <thead>
+            <tr class="table-primary">
+                <th>Title</th>
+                <th>Added</th>
+                <th>Last Modified</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td><a href="{% url 'post-detail' post.id %}">{{post.title}}</a></td>
+                <td>{{post.date_posted}}</td>
+                <td>{{post.date_updated}}</td>
+                <td><a href="{% url 'user-posts' post.author.username %}">{{post.author}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+{% endblock content %}

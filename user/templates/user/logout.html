@@ -1,0 +1,15 @@
+{% extends "post/base.html" %}
+
+{% block content %}
+<div class="container col-md-8" style="margin-top: 8rem; margin-bottom: 15rem;">
+    <div class="content-section">
+        <h2 class="border-bottom mb-4 text-info text-center">You have succefully logged out</h2>
+        <div class="text-right">
+            <small class="text-muted text-left">
+                Login with a different account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+            </small>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

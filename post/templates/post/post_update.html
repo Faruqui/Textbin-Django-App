@@ -1,0 +1,22 @@
+{% extends "post/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container col-md-10">
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-center text-info">Edit Post</legend>
+                {{ form | crispy }}
+            </fieldset>
+            <div class="form-group text-center">
+                <button class="btn btn-outline-info" type="submit">Confirm</button>
+                <a class="btn btn-outline-secondary" href="{% url 'post-detail' object.pk %}">Go Back</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+{% endblock content %}

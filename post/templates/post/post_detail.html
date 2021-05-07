@@ -1,0 +1,27 @@
+{% extends "post/base.html" %}
+
+{% block content %}
+<div class="container col-md-12" style=" margin-bottom: 5rem;">
+    <div class="content-section mb-2">
+        <div class="border-bottom mb-0">
+            <h3 class=" text-info">{{object.title}}</h3>
+            <small><a href="{% url 'user-posts' object.author.username %}">{{object.author.username}}</a> | </small>
+            <small class="text-muted">{{ object.date_posted|date:"d-M-y, h:i A" }}</small>
+
+        </div>
+
+        <div class="border-bottom mb-4 text-right">
+            {% if user.is_staff or object.author == user%}
+            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'post-update' object.pk%}">Edit</a>
+            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="#">Delete</a>
+            {% endif %}
+        </div>
+
+
+
+        <pre><code>{{object.content}}</code>   
+        <small class="text-muted float-right">Last Modified: {{ post.date_updated|date:"d-M-y, h:i A" }}</small>
+    </pre>
+    </div>
+</div>
+{% endblock content %}
