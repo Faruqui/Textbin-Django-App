@@ -1,5 +1,4 @@
 {% extends "post/base.html" %}
-{% load crispy_forms_tags %}
 
 {% block content %}
 <div class="container col-md-10">
@@ -7,11 +6,12 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4 text-center text-info">Edit Post</legend>
-                {{ form | crispy }}
+                <legend class="border-bottom mb-4 text-center text-info">Delete Post:
+                    <a href="{% url 'post-detail' object.pk %}">{{ object.title }}</a>
+                </legend>
             </fieldset>
             <div class="form-group text-center">
-                <button class="btn btn-outline-success" type="submit">Confirm</button>
+                <button class="btn btn-outline-danger" type="submit">Confirm</button>
                 <a class="btn btn-outline-secondary" href="{% url 'post-detail' object.pk %}">Go Back</a>
             </div>
         </form>

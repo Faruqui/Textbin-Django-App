@@ -5,18 +5,23 @@
     <div class="content-section mb-2">
         <div class="border-bottom mb-0">
             <h3 class=" text-info">{{object.title}}</h3>
+            {% if object.author is not none %}
             <small><a href="{% url 'user-posts' object.author.username %}">{{object.author.username}}</a> | </small>
-            <small class="text-muted">{{ object.date_posted|date:"d-M-y, h:i A" }}</small>
+            {% else %}
+            <small><a href="#">Guest</a> | </small>
+            {% endif %}
 
+            <small class="text-muted">{{ object.date_posted|date:"d-M-y, h:i A" }}</small>
         </div>
 
+        {% if object.author is not none or user.is_staff%}
         <div class="border-bottom mb-4 text-right">
             {% if user.is_staff or object.author == user%}
-            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'post-update' object.pk%}">Edit</a>
-            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="#">Delete</a>
+            <a class="btn btn-outline-info btn-sm mt-1 mb-1" href="{% url 'post-update' object.pk %}">Edit</a>
+            <a class="btn btn-outline-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.pk %}">Delete</a>
             {% endif %}
         </div>
-
+        {% endif %}
 
 
         <pre><code>{{object.content}}</code>   

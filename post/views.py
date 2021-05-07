@@ -16,7 +16,12 @@ from .models import Post
 
 
 def home(request):
-    return render(request, "post/home.html", {"title": "Home"})
+    context = {
+        "title": "Home",
+        "posts": Post.objects.order_by("-date_updated")[:10],
+    }
+
+    return render(request, "post/home.html", context)
 
 
 def about(request):
@@ -38,13 +43,17 @@ class PostDetailView(DetailView):
     model = Post
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(CreateView):
     model = Post
     fields = ["title", "content"]
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        if self.request.user.is_authenticated:
+            form.instance.author = self.request.user
+            return super().form_valid(form)
+        else:
+            form.instance.author = None
+            return super().form_valid(form)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -65,9 +74,14 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
+    success_url = "/"
 
     def test_func(self):
         post = self.get_object()
         if self.request.user == post.author or self.request.user.is_staff:
             return True
         return False
+
+    def delete(self, *args, **kwargs):
+        messages.success(self.request, "Post Deleted from database")
+        return super().delete(*args, **kwargs)
